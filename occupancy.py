@@ -49,6 +49,27 @@ half_valence_electrons = total_valence_electrons/2
 print(f"Total valence electrons in the structure: {total_valence_electrons}")
 print(f"1/2 of the total valence electrons in the structure: {half_valence_electrons}")
 
+#chg = Chgcar.from_file("CHGCAR")
+
+# chg.data is a dict with keys like "total", "diff", etc.
+# For spin-polarized runs, you usually have:
+#   chg.data["total"] = rho_up + rho_down
+#   chg.data["diff"] = rho_up - rho_down
+
+#rho_total = chg.data["total"]  # 3D array (ngxf, ngyf, ngzf)
+#rho_diff = chg.data["diff"]    # 3D array of spin density
+
+#print("Shape of the total density array:", rho_total.shape)
+#print("Shape of the spin-difference array:", rho_diff.shape)
+
+# If you want to do a naive total integration of the difference density:
+# Volume of each grid cell, in Å^3
+#vol_per_gridpt = chg.structure.lattice.volume / np.prod(rho_diff.shape)
+
+# Integration of spin density over entire cell:
+#total_spin = np.sum(rho_diff) * vol_per_gridpt
+#print(f"Integrated spin density (total magnetization) = {total_spin:.4f} µB")
+
 def parse_outcar_magnetization(outcar_file="OUTCAR"):
     """
     Manually parse the final magnetization from the OUTCAR by searching 
